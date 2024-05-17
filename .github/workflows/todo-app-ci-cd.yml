@@ -6,23 +6,20 @@ on:
       - main  # Adjust this based on your branch name
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+    build:
+        runs-on: ubuntu-latest
 
-    steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
+        steps:
+        - name: Checkout repository
+          uses: actions/checkout@v2
 
-    - name: Setup Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '20'
+        - name: Setup Node.js
+          uses: actions/setup-node@v2
+          with:            
+            node-version: '20'
 
-    - name: Install dependencies
-      run: npm install
+        - name: Install dependencies
+          run: npm install
 
-    - name: Build
-      run: npm run build --prod
-
-    # - name: Test
-    #   run: npm run test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
+        - name: Build
+          run: npm run build --prod
