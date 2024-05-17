@@ -37,5 +37,4 @@ jobs:
                 password: ${{secrets.NGINX_PASSWORD}}
                 source: "dist/browser/*"
                 target: "/var/www/html/todo-app"
-                script: |
-                    echo ${{secrets.NGINX_PASSWORD}} | sudo -S systemctl restart nginx
+                
