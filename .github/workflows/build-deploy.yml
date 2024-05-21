@@ -83,17 +83,20 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
   
-      - name: Add remote server to known hosts
-        run: |
-          mkdir -p ~/.ssh
-          ssh-keyscan -H 188.166.178.194 >> ~/.ssh/known_hosts
+      # - name: Add remote server to known hosts
+      #   run: |
+      #     mkdir -p ~/.ssh
+      #     ssh-keyscan -H 188.166.178.194 >> ~/.ssh/known_hosts
 
-      # - name: Deploy to ubuntu server
-      #   uses: appleboy/ssh-action@master
-      #   with:
-      #     host: ${{secrets.NGINX_HOST}}
-      #     username: ${{secrets.NGINX_USERNAME}}
-      #     password: ${{secrets.NGINX_PASSWORD}}
+      - name: Deploy to ubuntu server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{secrets.NGINX_HOST}}
+          username: ${{secrets.NGINX_USERNAME}}
+          password: ${{secrets.NGINX_PASSWORD}}        
+        
+        
+          
 
       - name: Deploy to server
         run: |
