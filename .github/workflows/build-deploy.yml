@@ -76,12 +76,19 @@ jobs:
       name: production
     steps:
       - name: pulling git repo
-        uses: actions/checkout@v2    
+        uses: actions/checkout@v4    
         
       - name: Setup SSH
-        uses: webfactory/ssh-agent@v0.5.3
+        uses: webfactory/ssh-agent@v0.9.0
         with:
           ssh-private-key: ${{secrets.NGINX_HOST}}
+
+      # - name: Deploy to ubuntu server
+      #   uses: appleboy/ssh-action@master
+      #   with:
+      #     host: ${{secrets.PROD_HOST}}
+      #     username: ${{secrets.PROD_USERNAME}}
+      #     password: ${{secrets.PROD_PASSWORD}}
 
       - name: Deploy to server
         run: |
