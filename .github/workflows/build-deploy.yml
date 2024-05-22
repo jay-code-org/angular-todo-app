@@ -67,7 +67,7 @@ jobs:
       #   run: npm run build --configuration=production
 
       - name: Run Angular build
-        run: ng build --configuration production
+        run: ng build --configuration=production
       
 
   deploy:
@@ -101,7 +101,7 @@ jobs:
 
       - name: Deploy to server
         run: |
-          scp -r dist/todo-app/* jaycode@188.166.178.194:/home/jaycode/web          
+          scp -r dist/todo-app jaycode@188.166.178.194:/home/jaycode/web          
           ssh jaycode@188.166.178.194 | echo ${{secrets.NGINX_PASSWORD}} | sudo -S systemctl restart nginx
         
 # ssh jaycode@188.166.178.194 'sudo systemctl restart nginx'
