@@ -63,10 +63,11 @@ jobs:
       - name: Install Angular CLI
         run: npm install -g @angular/cli
 
-      - name: Build Angular app
-        run: npm run build --configuration=production
-        env:
-          CI: true
+      # - name: Build Angular app
+      #   run: npm run build --configuration=production
+
+      - name: Run Angular build
+        run: ng build --prod
       
 
   deploy:
