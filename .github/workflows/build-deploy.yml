@@ -44,7 +44,7 @@ jobs:
       - name: Deploy to server
         run: |
           scp -r dist/todo-app/browser/* jaycode@188.166.178.194:/var/www/html/todo          
-          ssh jaycode@188.166.178.194 | echo ${{secrets.NGINX_PASSWORD}} | sudo -S systemctl restart nginx
+          echo ${{secrets.NGINX_PASSWORD}} | sudo -S systemctl restart nginx
 
 
 
