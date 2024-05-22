@@ -43,7 +43,7 @@ jobs:
           ssh-keyscan -H 188.166.178.194 >> ~/.ssh/known_hosts
       - name: Deploy to server
         run: |
-          scp -r dist/todo-app/browser/* jaycode@188.166.178.194:/home/jaycode/web/angular-apps/todo          
+          scp -r dist/todo-app/browser/* jaycode@188.166.178.194:/var/www/html/todo          
           ssh jaycode@188.166.178.194 | echo ${{secrets.NGINX_PASSWORD}} | sudo -S systemctl restart nginx
 
 
