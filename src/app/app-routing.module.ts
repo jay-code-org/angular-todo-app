@@ -18,6 +18,10 @@ const routes: Routes = [
     component: SecondPageComponent,
   },
   {
+    path: 'second/:id',
+    component: SecondPageComponent,
+  },
+  {
     path: '**',
     component: NotFoundPageComponent,
   },
