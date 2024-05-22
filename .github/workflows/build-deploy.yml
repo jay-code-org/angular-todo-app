@@ -41,10 +41,15 @@ jobs:
         run: |
           mkdir -p ~/.ssh
           ssh-keyscan -H 188.166.178.194 >> ~/.ssh/known_hosts
-      - name: Deploy to server
+
+      - name: Deploy to temporary location
         run: |
-          scp -r dist/todo-app/browser/* jaycode@188.166.178.194:/var/www/html/todo          
-          echo ${{secrets.NGINX_PASSWORD}} | sudo -S systemctl restart nginx
+          scp -r dist/todo-app/browser/* jaycode@188.166.178.194:/home/jaycode/web/angular-apps/todo          
+
+      - name: Move files to web directory on server
+        run: |
+          ssh jaycode@188.166.178.194 | echo ${{secrets.NGINX_PASSWORD}} | sudo mv /home/jaycode/web/angular-apps/todo/* /var/www/html/todo/
+          echo ${{secrets.NGINX_PASSWORD}} | sudo -S systemctl reload nginx
 
 
 
