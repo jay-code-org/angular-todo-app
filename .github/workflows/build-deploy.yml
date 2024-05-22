@@ -1,4 +1,4 @@
-name: Build and Deploy Code
+name: Build and Deploy Angular Todo
 on:
   push:
     branches: [ "main" ]
