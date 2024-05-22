@@ -1,41 +1,3 @@
-# name: Deploy Angular App
-# on:
-#   push:
-#     branches:
-#       - main
-
-# jobs:
-#   deploy:
-#     runs-on: ubuntu-latest
-
-#     steps:
-#       - name: Checkout code
-#         uses: actions/checkout@v2
-
-#       - name: Install Node.js
-#         uses: actions/setup-node@v2
-#         with:
-#           node-version: '20'
-
-#       - name: Install Angular CLI
-#         run: npm install -g @angular/cli
-
-#       - name: Install dependencies
-#         run: npm install
-
-#       - name: Build Angular app
-#         run: ng build --configuration=production
-
-#       - name: Deploy to Nginx
-#         uses: appleboy/scp-action@master
-#         with:
-#           host: ${{ secrets.NGINX_HOST }}
-#           username: ${{ secrets.NGINX_USERNAME }}
-#           key: ${{ secrets.SSH_PRIVATE_KEY }}
-#           source: "dist/browser/*"
-#           target: "/var/www/html/todo-app"
-
-
 name: Build and Deploy Code
 on:
   push:
@@ -56,19 +18,12 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: '20'
-
       - name: Install dependencies
         run: npm install
-
       - name: Install Angular CLI
         run: npm install -g @angular/cli
-
-      # - name: Build Angular app
-      #   run: npm run build --configuration=production
-
       - name: Run Angular build
-        run: ng build --configuration=production
-      
+        run: ng build --configuration=production      
 
   deploy:
     runs-on: ubuntu-latest
@@ -77,90 +32,19 @@ jobs:
       name: production
     steps:
       - name: pulling git repo
-        uses: actions/checkout@v4    
-        
+        uses: actions/checkout@v4            
       - name: Add SSH key
         uses: webfactory/ssh-agent@v0.7.0
         with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-  
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}  
       - name: Add remote server to known hosts
         run: |
           mkdir -p ~/.ssh
           ssh-keyscan -H 188.166.178.194 >> ~/.ssh/known_hosts
-
-      # - name: Deploy to ubuntu server
-      #   uses: appleboy/ssh-action@master
-      #   with:
-      #     host: ${{secrets.NGINX_HOST}}
-      #     username: ${{secrets.NGINX_USERNAME}}
-      #     password: ${{secrets.NGINX_PASSWORD}}        
-        
-        
-          
-
       - name: Deploy to server
         run: |
-          scp -r dist/todo-app jaycode@188.166.178.194:/home/jaycode/web          
+          scp -r dist/todo-app/browser/* jaycode@188.166.178.194:/home/jaycode/web/angular-apps/todo          
           ssh jaycode@188.166.178.194 | echo ${{secrets.NGINX_PASSWORD}} | sudo -S systemctl restart nginx
-        
-# ssh jaycode@188.166.178.194 'sudo systemctl restart nginx'
-#       - name: Deploy to ubuntu server
-#         uses: appleboy/ssh-action@master
-#         with:
-#           host: ${{secrets.PROD_HOST}}
-#           username: ${{secrets.PROD_USERNAME}}
-#           password: ${{secrets.PROD_PASSWORD}}
-#           script: |
-#             cd app/src
-#             git pull
-#             echo ${{secrets.PROD_PASSWORD}} | sudo -S systemctl restart todo-fastapi
-
-
-
-# name: Build and Deploy Code
-# on:
-#   push:
-#     branches: [ "main" ]
-#   pull_request:
-#     branches: [ "main" ]
-
-# permissions:
-#   contents: read
-
-# jobs:
-#   build:
-#     runs-on: ubuntu-latest
-
-#     steps:
-#       - name: Checkout code
-#         uses: actions/checkout@v2
-
-#       - name: Set up Node.js
-#         uses: actions/setup-node@v2
-#         with:
-#           node-version: '20'
-
-#       - name: Install dependencies
-#         run: npm install
-
-#       - name: Install Angular CLI
-#         run: npm install -g @angular/cli
-
-#       - name: Build Angular app
-#         run: ng build --configuration-production
-#         env:
-#           CI: true
-
-#       - name: Setup SSH
-#         uses: webfactory/ssh-agent@v0.5.3
-#         with:
-#           ssh-private-key: ${{secrets.NGINX_HOST}}
-
-#       - name: Deploy to server
-#         run: |
-#           scp -r dist/angular-todo-app/browser/* jaycode@188.166.178.194:/var/www/html/todo-app
-#           ssh jaycode@188.166.178.194 'sudo systemctl restart nginx'
 
 
 
